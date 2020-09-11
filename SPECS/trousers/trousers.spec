@@ -1,13 +1,15 @@
 Summary:      TCG Software Stack (TSS)
 Name:         trousers
 Version:      0.3.14
-Release:      5%{?dist}
+Release:      6%{?dist}
 License:      BSD-3-Clause
 URL:          https://sourceforge.net/projects/trousers/
 Group:        System Environment/Security
 Vendor:       Microsoft Corporation
 Distribution: Mariner
 Source0:      https://sourceforge.net/projects/%{name}/files/%{name}/%{version}/%{name}-%{version}.tar.gz
+Patch0:       CVE-2020-24330.patch
+Patch1:       CVE-2020-24331.nopatch
 Requires:     libtspi = %{version}-%{release}
 
 %description
@@ -28,6 +30,7 @@ TSPI library
 
 %prep
 %setup -q -c %{name}-%{version}
+%patch0 -p1
 %build
 %configure \
     --disable-static
@@ -88,9 +91,10 @@ fi
 %exclude %{_libdir}/libtddl.a
 
 %changelog
-* Sat May 09 00:20:43 PST 2020 Nick Samson <nisamson@microsoft.com> - 0.3.14-5
-- Added %%license line automatically
-
+*   Wed Sep 09 2020 Henry Li <lihl@microsoft.com> - 0.3.14-6
+-   Added CVE-2020-24330.patch
+*   Sat May 09 00:20:43 PST 2020 Nick Samson <nisamson@microsoft.com> - 0.3.14-5
+-   Added %%license line automatically
 *   Thu Apr 09 2020 Joe Schmitt <joschmit@microsoft.com> 0.3.14-4
 -   Update Source0 with valid URL.
 -   Update License.

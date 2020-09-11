@@ -3,19 +3,23 @@
 Summary:        A high-level scripting language
 Name:           python2
 Version:        2.7.18
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        PSF
 URL:            http://www.python.org/
 Group:          System Environment/Programming
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
 Source0:        http://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
+Source1:        recursion.tar
 Patch0:         cgi.patch
 Patch1:         added-pyopenssl-ipaddress-certificate-validation.patch
 Patch2:         python2-support-mariner-platform.patch
 Patch3:         Replace-unsupported-TLS-methods.patch
 # Ignore CVE-2015-5652 because it only applies to Windows
 Patch4:         CVE-2015-5652.nopatch
+Patch5:         CVE-2013-1753.patch
+Patch6:         CVE-2019-9674.patch
+Patch7:         CVE-2019-20907.patch
 BuildRequires:  pkg-config >= 0.28
 BuildRequires:  bzip2-devel
 BuildRequires:  openssl-devel
@@ -113,10 +117,14 @@ The test package contains all regression tests for Python as well as the modules
 
 %prep
 %setup -q -n Python-%{version}
+cp %{SOURCE1} ./Lib/Test
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
 export OPT="${CFLAGS} %{openssl_flags}"
