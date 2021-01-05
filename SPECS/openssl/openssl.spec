@@ -4,7 +4,7 @@
 Summary:        Utilities from the general purpose cryptography library with TLS implementation
 Name:           openssl
 Version:        1.1.1g
-Release:        9%{?dist}
+Release:        10%{?dist}
 License:        OpenSSL
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -15,7 +15,24 @@ Patch0:         openssl-1.1.1-no-html.patch
 # CVE only applies when Apache HTTP Server version 2.4.37 or less.
 Patch1:         CVE-2019-0190.nopatch
 Patch2:         0001-Replacing-deprecated-functions-with-NULL-or-highest.patch
-Patch3:         CVE-2020-1971.patch
+Patch4:         openssl-1.1.0-issuer-hash.patch
+Patch5:         openssl-1.1.1-fips.patch
+Patch6:         openssl-1.1.1-version-override.patch
+Patch7:         openssl-1.1.1-seclevel.patch
+Patch8:         openssl-1.1.1-fips-post-rand.patch
+Patch9:         openssl-1.1.1-evp-kdf.patch
+Patch10:        openssl-1.1.1-ssh-kdf.patch
+Patch11:        openssl-1.1.1-krb5-kdf.patch
+Patch12:        openssl-1.1.1-edk2-build.patch
+# Patch11:      openssl-1.1.1-fips-curves.patch
+Patch13:        openssl-1.1.1-fips-crng-test.patch
+Patch14:        openssl-1.1.1-fips-drbg-selftest.patch
+Patch15:        openssl-1.1.1-fips-dh.patch
+Patch16:        openssl-1.1.1-kdf-selftest.patch
+Patch17:        openssl-1.1.1-rewire-fips-drbg.patch
+# Patch18:        openssl-1.1.1-s390x-ecc.patch
+Patch19:        openssl-1.1.1-explicit-params.patch
+Patch20:        CVE-2020-1971.patch
 BuildRequires:  perl-Test-Warnings
 BuildRequires:  perl-Text-Template
 Requires:       %{name}-libs = %{version}-%{release}
@@ -72,10 +89,7 @@ package provides Perl scripts for converting certificates and keys
 from other formats to the formats used by the OpenSSL toolkit.
 
 %prep
-%setup -q
-%patch0 -p1
-%patch2 -p1
-%patch3 -p1
+%autosetup -p1
 
 %build
 # Add -Wa,--noexecstack here so that libcrypto's assembler modules will be
@@ -102,7 +116,7 @@ export HASHBANGPERL=%{_bindir}/perl
     no-aria \
     enable-bf \
     no-blake2 \
-    no-camellia \
+    enable-camellia \
     no-capieng \
     enable-cast \
     no-chacha \
@@ -258,6 +272,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jan 05 2021 Nicolas Ontiveros <niontive@microsoft.com> - 1.1.1g-10
+- Import FIPS patches from CentOS 8
+- Add "enable-camellia" in configure
+
 * Thu Dec 10 2020 Mateusz Malisz <mamalisz@microsoft.com> - 1.1.1g-9
 - Remove binaries (such as bash) from requires list
 
