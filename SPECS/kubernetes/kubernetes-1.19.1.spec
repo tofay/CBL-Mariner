@@ -8,7 +8,7 @@
 Summary:        Microsoft Kubernetes
 Name:           kubernetes
 Version:        1.19.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        ASL 2.0
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -18,11 +18,18 @@ URL:            https://mcr.microsoft.com/oss
 #               Note that only amd64 tarball exist which is OK since kubernetes is built from source
 Source0:        kubernetes-node-linux-amd64-%{version}-hotfix.20200923.tar.gz
 Source1:        kubelet.service
+# CVE-2020-8564, CVE-2020-8565, CVE-2020-8566 Kubernetes doc on website recommend to not enable debug level logging in production (no patch available)
+Patch0:         CVE-2020-8564.nopatch
+Patch1:         CVE-2020-8565.nopatch
+Patch2:         CVE-2020-8566.nopatch
+# CVE-2020-8563 Only applies when using VSphere as cloud provider,
+#               Kubernetes doc on website recommend to not enable debug level logging in production (no patch available)
+Patch3:         CVE-2020-8563.nopatch
+BuildRequires:  flex-devel
 BuildRequires:  golang >= 1.15.5
 BuildRequires:  rsync
-BuildRequires:  which
-BuildRequires:  flex-devel
 BuildRequires:  systemd-devel
+BuildRequires:  which
 Requires:       cni
 Requires:       cri-tools
 Requires:       ebtables
@@ -171,6 +178,12 @@ fi
 %{_bindir}/kubeadm
 
 %changelog
+* Tue Jan 05 2021 Nicolas Guibourge <nicolasg@microsoft.com> - 1.19.1-4
+- CVE-2020-8563
+
+* Mon Jan 04 2021 Nicolas Guibourge <nicolasg@microsoft.com> - 1.19.1-3
+- CVE-2020-8564, CVE-2020-8565, CVE-2020-8566
+
 * Thu Dec 17 2020 Nicolas Guibourge <nicolasg@microsoft.com> - 1.19.1-2
 - Rename spec file
 
