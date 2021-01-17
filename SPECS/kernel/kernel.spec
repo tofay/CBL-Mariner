@@ -3,7 +3,7 @@
 Summary:        Linux Kernel
 Name:           kernel
 Version:        5.4.83
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        GPLv2
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -15,6 +15,7 @@ Source2:        config_aarch64
 # Arm64 HyperV support required patch
 Patch0:         ver5_4_72_arm64_hyperv_support.patch
 Patch1:         efi-libstub-tpm-enable-tpm-eventlog-function-for-ARM.patch
+Patch2:         fix-gui-installer-mmap.patch
 # Kernel CVEs are addressed by moving to a newer version of the stable kernel.
 # Since kernel CVEs are filed against the upstream kernel version and not the
 # stable kernel version, our automated tooling will still flag the CVE as not
@@ -205,6 +206,13 @@ Requires:       audit
 %description tools
 This package contains the 'perf' performance analysis tools for Linux kernel.
 
+%package dtb
+Summary:        This package contains common device tree blobs (dtb)
+Group:          System Environment/Kernel
+
+%description dtb
+This package contains common device tree blobs (dtb)
+
 %prep
 %setup -q -n WSL2-Linux-Kernel-linux-msft-%{version}
 
@@ -213,6 +221,7 @@ This package contains the 'perf' performance analysis tools for Linux kernel.
 %endif
 
 %patch1 -p1
+%patch2 -p1
 
 %build
 make mrproper
@@ -294,6 +303,7 @@ install -vm 600 arch/x86/boot/bzImage %{buildroot}/boot/vmlinuz-%{uname_r}
 
 %ifarch aarch64
 install -vm 600 arch/arm64/boot/Image %{buildroot}/boot/vmlinuz-%{uname_r}
+install -D -m 640 arch/arm64/boot/dts/freescale/imx8mq-evk.dtb %{buildroot}/boot/dtb/fsl-imx8mq-evk.dtb
 %endif
 
 # Restrict the permission on System.map-X file
@@ -432,7 +442,18 @@ ln -sf linux-%{uname_r}.cfg /boot/mariner.cfg
 %{_libdir}/perf/examples/bpf/*
 %{_libdir}/perf/include/bpf/*
 
+%ifarch aarch64
+%files dtb
+/boot/dtb/fsl-imx8mq-evk.dtb
+%endif
+
 %changelog
+* Tue Jan 12 2021 Rachel Menge <rachelmenge@microsoft.com> - 5.4.83-4
+- Add imx8mq support
+
+* Sat Jan 09 2021 Andrew Phelps <anphel@microsoft.com> - 5.4.83-3
+- Add patch to fix GUI installer crash
+
 * Mon Dec 28 2020 Nicolas Ontiveros <niontive@microsoft.com> - 5.4.83-2
 - Address CVE-2020-27777
 
