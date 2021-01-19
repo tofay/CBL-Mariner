@@ -4,7 +4,7 @@
 Summary:        Utilities from the general purpose cryptography library with TLS implementation
 Name:           openssl
 Version:        1.1.1g
-Release:        10%{?dist}
+Release:        11%{?dist}
 License:        OpenSSL
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -22,16 +22,16 @@ Patch0:         openssl-1.1.1-no-html.patch
 # CVE only applies when Apache HTTP Server version 2.4.37 or less.
 Patch1:         CVE-2019-0190.nopatch
 Patch2:         0001-Replacing-deprecated-functions-with-NULL-or-highest.patch
-Patch4:         openssl-1.1.0-issuer-hash.patch
-Patch5:         openssl-1.1.1-fips.patch
-Patch6:         openssl-1.1.1-version-override.patch
-Patch7:         openssl-1.1.1-seclevel.patch
-Patch8:         openssl-1.1.1-fips-post-rand.patch
-Patch9:         openssl-1.1.1-evp-kdf.patch
-Patch10:        openssl-1.1.1-ssh-kdf.patch
-Patch11:        openssl-1.1.1-krb5-kdf.patch
-Patch12:        openssl-1.1.1-edk2-build.patch
-# Patch11:      openssl-1.1.1-fips-curves.patch
+Patch3:         openssl-1.1.0-issuer-hash.patch
+Patch4:         openssl-1.1.1-fips.patch
+Patch5:         openssl-1.1.1-version-override.patch
+Patch6:         openssl-1.1.1-seclevel.patch
+Patch7:         openssl-1.1.1-fips-post-rand.patch
+Patch8:         openssl-1.1.1-evp-kdf.patch
+Patch9:        openssl-1.1.1-ssh-kdf.patch
+Patch10:        openssl-1.1.1-krb5-kdf.patch
+Patch11:        openssl-1.1.1-edk2-build.patch
+# Patch12:      openssl-1.1.1-fips-curves.patch
 Patch13:        openssl-1.1.1-fips-crng-test.patch
 Patch14:        openssl-1.1.1-fips-drbg-selftest.patch
 Patch15:        openssl-1.1.1-fips-dh.patch
@@ -107,8 +107,24 @@ cp %{SOURCE3} test/
 cp %{SOURCE4} test/
 
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
+%patch19 -p1
+%patch20 -p1
 
 %build
 # Add -Wa,--noexecstack here so that libcrypto's assembler modules will be
