@@ -4,7 +4,7 @@
 Summary:        Python documentation generator
 Name:           python-sphinx
 Version:        1.7.9
-Release:        13%{?dist}
+Release:        14%{?dist}
 License:        BSD
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -44,6 +44,7 @@ Requires:       python2
 Requires:       python2-libs
 Requires:       python2-sphinxcontrib-websupport
 %endif
+Provides:       %{name}-locale = %{version}-%{release}
 
 %description
 Sphinx is a tool that makes it easy to create intelligent and
@@ -154,6 +155,9 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %{python3_sitelib}/*
 
 %changelog
+* MOn Feb 16 2021 Henry Li <lihl@microsoft.com> - 1.7.9-14
+- Provides python-sphinx-locale.
+
 * Thu Feb 04 2021 Joe Schmitt <joschmit@microsoft.com> - 1.7.9-13
 - Ship sphinx-build-3.7 symlink.
 

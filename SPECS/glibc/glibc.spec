@@ -4,7 +4,7 @@
 Summary:        Main C library
 Name:           glibc
 Version:        2.28
-Release:        15%{?dist}
+Release:        16%{?dist}
 License:        LGPLv2+
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -57,6 +57,7 @@ These are the header files of glibc.
 Summary:        Additional language files for glibc
 Group:          Applications/System
 Requires:       %{name} = %{version}-%{release}
+Provides:		%{name}-langpack-en = %{version}-%{release}
 
 %description lang
 These are the additional language files of glibc.
@@ -305,6 +306,9 @@ grep "^FAIL: nptl/tst-eintr1" tests.sum >/dev/null && n=$((n+1)) ||:
 %defattr(-,root,root)
 
 %changelog
+* Mon Feb 16 2021 Henry Li <lihl@microsoft.com> - 2.28-16
+- Provides glibc-langpack-en
+
 * Fri Feb 05 2021 Joe Schmitt <joschmit@microsoft.com> - 2.28-15
 - Replace incorrect %%{_lib} usage with %%{_libdir}
 
