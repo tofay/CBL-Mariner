@@ -635,8 +635,8 @@
         "type": "other",
         "other": {
           "name": "cloud-utils-growpart",
-          "version": "0.30",
-          "downloadUrl": "https://launchpad.net/cloud-utils/trunk/0.3/+download/cloud-utils-0.30.tar.gz"
+          "version": "0.32",
+          "downloadUrl": "https://launchpad.net/cloud-utils/trunk/0.32/+download/cloud-utils-0.32.tar.gz"
         }
       }
     },
@@ -3855,8 +3855,8 @@
         "type": "other",
         "other": {
           "name": "openssh",
-          "version": "8.0p1",
-          "downloadUrl": "https://ftp.usa.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.0p1.tar.gz"
+          "version": "8.5p1",
+          "downloadUrl": "https://ftp.usa.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.5p1.tar.gz"
         }
       }
     },
