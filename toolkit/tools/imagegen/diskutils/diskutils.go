@@ -208,7 +208,7 @@ func ZeroDisk(diskPath string, blockSize, size uint64) (err error) {
 
 // SetupLoopbackDevice creates a /dev/loop device for the given disk file
 func SetupLoopbackDevice(diskFilePath string) (devicePath string, err error) {
-	stdout, stderr, err := shell.Execute("losetup", "--show", "-f", "-P", diskFilePath)
+	stdout, stderr, err := shell.Execute("losetup", "--show", "-f", diskFilePath)
 	if err != nil {
 		logger.Log.Warnf("Failed to create loopback device using losetup: %v", stderr)
 		return
@@ -398,7 +398,19 @@ func CreateSinglePartition(diskDevPath string, partitionNumber int, partitionTab
 			return "", err
 		}
 	}
-
+	// Update kernel partition table information
+	//
+	// There can be a timing issue where partition creation finishes but the
+	// devtmpfs files are not populated in time for partition initialization.
+	// So to deal with this, we call partprobe here to query and flush the
+	// partition table information, which should enforce that the devtmpfs
+	// files are created when partprobe returns control.
+	stdout, stderr, err := shell.Execute("partprobe", "-s", diskDevPath)
+	if err != nil {
+		logger.Log.Warnf("Failed to execute partprobe: %v", stderr)
+		return "", err
+	}
+	logger.Log.Debugf(stdout)
 	return InitializeSinglePartition(diskDevPath, partitionNumber, partitionTableType, partition)
 }
 
