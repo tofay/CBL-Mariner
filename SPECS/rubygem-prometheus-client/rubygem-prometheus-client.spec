@@ -4,7 +4,7 @@
 Summary:        Prometheus instrumentation library for Ruby applications
 Name:           rubygem-prometheus-client
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        Apache 2.0
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -12,6 +12,7 @@ Group:          Development/Languages
 URL:            https://rubygems.org/gems/%{gem_name}/versions/%{version}
 Source0:        https://rubygems.org/downloads/%{gem_name}-%{version}.gem
 BuildRequires:  ruby
+Requires:       rubygem-quantile < 0.3
 
 %description
 A suite of instrumentation metric primitives for Ruby that can be exposed through a HTTP interface.
@@ -30,6 +31,9 @@ gem install -V --local --force --install-dir %{buildroot}/%{gemdir} %{SOURCE0}
 %{gemdir}
 
 %changelog
+* Tue Jun 15 2021 Tom Fay <tomfay@microsoft.com> - 0.9.0-2
+- Add dependency on rubygem-quantile
+
 * Tue Jan 05 2021 Henry Li <lihl@microsoft.com> - 0.9.0-1
 - License verified
 - Original version for CBL-Mariner
